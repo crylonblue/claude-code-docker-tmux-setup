@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -e
+
+# Load .env
+if [ ! -f .env ]; then
+  echo "❌ .env file not found"
+  exit 1
+fi
+export $(grep -v '^#' .env | xargs)
+
+REPO_URL="$1"
+if [ -z "$REPO_URL" ]; then
+  echo "Usage: claude-dev <github-repo-url>"
+  exit 1
+fi
+
+IMAGE="${DOCKER_IMAGE:-claude-dev:latest}"
+WORKSPACE_BASE="${WORKSPACE_BASE:-$HOME/.claude-workspaces}"
+REPO_NAME="$(basename "$REPO_URL" .git)"
+CONTAINER_NAME="claude-${REPO_NAME}"
+
+mkdir -p "$WORKSPACE_BASE/$REPO_NAME"
+
+exec docker run -it \
+  --name "$CONTAINER_NAME" \
+  -e GITHUB_TOKEN \
+  -e CLAUDE_MODEL \
+  -v "$WORKSPACE_BASE/$REPO_NAME:/workspace" \
+  "$IMAGE" \
+  "$REPO_URL"

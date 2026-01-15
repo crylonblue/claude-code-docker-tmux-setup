@@ -1,0 +1,8 @@
+services:
+  claude:
+    build: .
+    container_name: claude_instance
+    tty: true
+    stdin_open: true
+    env_file:
+      - .env
