@@ -1,0 +1,9 @@
+{
+  "hasCompletedOnboarding": true,
+  "theme": "dark",
+  "permissions": {
+    "allow": [],
+    "deny": []
+  },
+  "env": {}
+}

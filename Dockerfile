@@ -1,8 +1,6 @@
 FROM node:24-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV XDG_CONFIG_HOME=/home/claude/.config
-ENV CLAUDE_CONFIG_DIR=/home/claude/.config/claude
 
 # System dependencies (tmux INCLUDED)
 RUN apt-get update && \
@@ -21,12 +19,14 @@ RUN npm install -g @anthropic-ai/claude-code
 RUN useradd -m -s /bin/bash claude
 
 # Prepare dirs
-RUN mkdir -p /home/claude/.config/claude /workspace && \
+RUN mkdir -p /home/claude/.claude /workspace && \
     chown -R claude:claude /home/claude /workspace
 
 COPY tmux.conf /home/claude/.tmux.conf
+COPY claude-settings.json /home/claude/.claude/settings.json
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh && \
+    chown claude:claude /home/claude/.claude/settings.json
 
 USER claude
 WORKDIR /workspace
