@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
-# Load .env
-if [ ! -f .env ]; then
-  echo "❌ .env file not found"
+# Load .env (not .env.example or other variants)
+if [ ! -f ".env" ]; then
+  echo "❌ .env file not found (copy .env.example to .env and configure)"
   exit 1
 fi
-export $(grep -v '^#' .env | xargs)
+export $(grep -v '^#' ".env" | xargs)
 
 REPO_URL="$1"
 if [ -z "$REPO_URL" ]; then
