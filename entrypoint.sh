@@ -12,6 +12,9 @@ fi
 # --- hard-disable git prompts ---
 export GIT_TERMINAL_PROMPT=0
 
+# --- mark /workspace as safe (ownership differs due to volume mount) ---
+git config --global --add safe.directory /workspace
+
 # Debug: verify token received in container
 echo "🔍 Debug (container): GITHUB_TOKEN length=${#GITHUB_TOKEN}, starts with=${GITHUB_TOKEN:0:4}..."
 
