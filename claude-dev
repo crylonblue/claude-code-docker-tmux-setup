@@ -23,8 +23,12 @@ REPO_NAME="$(basename "$REPO_URL" .git)"
 CONTAINER_NAME="claude-${REPO_NAME}"
 
 mkdir -p "$WORKSPACE_BASE/$REPO_NAME"
+chmod 777 "$WORKSPACE_BASE/$REPO_NAME"
 
-exec docker run -it \
+# Remove existing container if it exists
+docker rm -f "$CONTAINER_NAME" 2>/dev/null || true
+
+exec docker run -it --rm \
   --name "$CONTAINER_NAME" \
   -e GITHUB_TOKEN \
   -e CLAUDE_MODEL \
