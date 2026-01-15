@@ -8,6 +8,9 @@ if [ ! -f ".env" ]; then
 fi
 export $(grep -v '^#' ".env" | xargs)
 
+# Debug: verify token loaded correctly
+echo "🔍 Debug: GITHUB_TOKEN length=${#GITHUB_TOKEN}, starts with=${GITHUB_TOKEN:0:4}..."
+
 REPO_URL="$1"
 if [ -z "$REPO_URL" ]; then
   echo "Usage: claude-dev <github-repo-url>"
