@@ -28,7 +28,7 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh && \
     chown claude:claude /home/claude/.claude/settings.json
 
-USER claude
+# Start as root to fix ownership, then switch to claude in entrypoint
 WORKDIR /workspace
 
 ENTRYPOINT ["/entrypoint.sh"]

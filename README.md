@@ -22,6 +22,8 @@ A Docker-based development environment for running [Claude Code](https://github.
 ```bash
 GITHUB_TOKEN=ghp_your_github_token_here
 CLAUDE_MODEL=claude-sonnet-4-20250514  # optional, defaults to latest
+GIT_USER_NAME="Your Name"
+GIT_USER_EMAIL="your.email@example.com"
 ```
 
 2. **Build the Docker image**:
@@ -90,6 +92,8 @@ The `tmux.conf` file contains tmux settings. Current defaults:
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `GITHUB_TOKEN` | GitHub PAT for cloning repos | Required |
+| `GIT_USER_NAME` | Git author name for commits | Required |
+| `GIT_USER_EMAIL` | Git author email for commits | Required |
 | `CLAUDE_MODEL` | Claude model to use | Latest |
 | `DOCKER_IMAGE` | Docker image name | `claude-dev:latest` |
 | `WORKSPACE_BASE` | Local workspace directory | `~/.claude-workspaces` |
@@ -109,7 +113,8 @@ The `tmux.conf` file contains tmux settings. Current defaults:
 ## Security Notes
 
 - The `--dangerously-skip-permissions` flag is used to allow Claude Code full filesystem access within the container
-- GitHub tokens are injected at clone time and removed from the remote URL afterward
+- GitHub tokens are stored in `~/.git-credentials` inside the container (not persisted outside)
+- The container starts as root to fix workspace ownership, then switches to the `claude` user
 - Workspaces are isolated per repository
 
 ## License

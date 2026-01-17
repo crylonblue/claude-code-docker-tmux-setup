@@ -32,6 +32,8 @@ exec docker run -it --rm \
   --name "$CONTAINER_NAME" \
   -e GITHUB_TOKEN \
   -e CLAUDE_MODEL \
+  -e GIT_USER_NAME \
+  -e GIT_USER_EMAIL \
   -v "$WORKSPACE_BASE/$REPO_NAME:/workspace" \
   "$IMAGE" \
   "$REPO_URL"
